@@ -50,7 +50,6 @@ Better Data Lineage: This release introduced support for Openlineage in service 
 
 Collected information is sent in OpenLineage event within columnLineage dataset facet described [here](https://openlineage.io/docs/spec/facets/dataset-facets/column_lineage_facet/).
 
-
 Column-level lineage has been implemented separately from the rest of builders and visitors extracting lineage information from Spark logical plans. As a result the codebase is stored in io.openlineage.spark3.agent.lifecycle.plan.columnLineage package within classes responsible only for this feature.
 
 Class ColumnLevelLineageUtils.java is an entry point to run the mechanism and is used within OpenLineageRunEventBuilder.
