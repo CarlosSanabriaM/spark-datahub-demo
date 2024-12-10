@@ -16,8 +16,6 @@ object SparkDatahubExample extends App {
     .appName("Spark DataHub example")
     // Specify local execution mode
     .master("local[*]")
-    // Mandatory configuration to enable DataHub integration
-    .config("spark.jars.packages","io.acryl:acryl-spark-lineage:0.2.16")
     // This line is EXTREMELY important
     .config("spark.extraListeners", "datahub.spark.DatahubSparkListener")
     // Specify the ways to emit metadata. By default, it sends to DataHub using REST emitter.
