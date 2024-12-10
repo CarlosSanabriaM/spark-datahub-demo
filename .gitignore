@@ -31,9 +31,3 @@ build/
 
 ### Mac OS ###
 .DS_Store
-
-### Open Lineage output events Json Lines file ###
-open-lineage-output-events.jsonl
-
-### Spark example output files ###
-developers-under-30

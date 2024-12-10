@@ -7,11 +7,11 @@ import org.apache.spark.sql.functions.{concat, lit}
 import java.io.File
 
 object SparkDatahubExample extends App {
-  private val peopleCsvFilePath = "commons/src/main/resources/people.csv"
-  private val outputFolderPath = "./developers-under-30"
+  private val peopleCsvFilePath = "people.csv"
+  private val outputFolderPath = "datahub/target/developers-under-30"
 
   // Create Spark session with OpenLineage configuration
-  val spark = SparkSession
+  private val spark = SparkSession
     .builder()
     .appName("Spark DataHub example")
     // Specify local execution mode

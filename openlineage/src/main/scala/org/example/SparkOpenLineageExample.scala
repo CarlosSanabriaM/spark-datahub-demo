@@ -7,15 +7,15 @@ import org.apache.spark.sql.functions.{concat, lit}
 import java.io.File
 
 object SparkOpenLineageExample extends App {
-  private val peopleCsvFilePath = "commons/src/main/resources/people.csv"
-  private val outputFolderPath = "./developers-under-30"
-  private val openLineageOutputEventsJsonFilePath = "./open-lineage-output-events.jsonl"
+  private val peopleCsvFilePath = "people.csv"
+  private val outputFolderPath = "openlineage/target/developers-under-30"
+  private val openLineageOutputEventsJsonFilePath = "openlineage/target/open-lineage-output-events.jsonl"
 
   // Delete file before running the job to avoid appending to the file
   new File(openLineageOutputEventsJsonFilePath).delete()
 
   // Create Spark session with OpenLineage configuration
-  val spark = SparkSession
+  private val spark = SparkSession
     .builder()
     .appName("Spark OpenLineage example")
     // Specify local execution mode
