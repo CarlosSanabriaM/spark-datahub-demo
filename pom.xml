@@ -7,6 +7,13 @@
   <groupId>org.example</groupId>
   <artifactId>spark-datahub-demo</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>commons</module>
+    <module>datahub</module>
+    <module>openlineage</module>
+  </modules>
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
@@ -14,7 +21,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <scala.binary.version>2.12</scala.binary.version>
     <scala.version>2.12.18</scala.version>
-    <openlineage.spark.version>1.25.0</openlineage.spark.version>
     <spark.version>3.5.3</spark.version>
     <slf4j.api.version>2.0.13</slf4j.api.version>
   </properties>
@@ -40,12 +46,6 @@
       <version>${spark.version}</version>
       <scope>provided</scope>
     </dependency>
-    <!-- OpenLineage Spark integration -->
-    <dependency>
-      <groupId>io.openlineage</groupId>
-      <artifactId>openlineage-spark_${scala.binary.version}</artifactId>
-      <version>${openlineage.spark.version}</version>
-    </dependency>
 
     <!-- region Logging -->
     <!-- SLF4J API -->
@@ -58,16 +58,6 @@
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.api.version}</version>
     </dependency>
-    <!-- Logback -->
-    <!-- Logging framework, to produce console output when running in the IDE. -->
-    <!-- https://logback.qos.ch/setup.html#mavenBuild -->
-    <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
-<!--    <dependency>-->
-<!--      <groupId>ch.qos.logback</groupId>-->
-<!--      <artifactId>logback-classic</artifactId>-->
-<!--      <version>${logback.version}</version>-->
-<!--      <scope>runtime</scope>-->
-<!--    </dependency>-->
     <!-- endregion -->
   </dependencies>
 

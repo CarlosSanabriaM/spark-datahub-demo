@@ -7,7 +7,7 @@ import org.apache.spark.sql.functions.{concat, lit}
 import java.io.File
 
 object SparkOpenLineageExample extends App {
-  private val peopleCsvFilePath = "src/main/resources/people.csv"
+  private val peopleCsvFilePath = "commons/src/main/resources/people.csv"
   private val outputFolderPath = "./developers-under-30"
   private val openLineageOutputEventsJsonFilePath = "./open-lineage-output-events.jsonl"
 
