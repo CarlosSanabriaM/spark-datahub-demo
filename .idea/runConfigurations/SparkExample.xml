@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SparkPi" type="Application" factoryName="Application">
+  <configuration default="false" name="SparkExample" type="Application" factoryName="Application">
     <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
-    <option name="MAIN_CLASS_NAME" value="org.example.SparkPi" />
+    <option name="MAIN_CLASS_NAME" value="org.example.SparkExample" />
     <module name="spark-datahub-demo" />
     <extension name="coverage">
       <pattern>
