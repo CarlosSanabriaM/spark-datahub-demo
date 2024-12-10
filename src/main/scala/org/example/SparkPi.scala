@@ -26,9 +26,23 @@ import scala.math.random
 object SparkPi extends App {
   val spark = SparkSession
     .builder()
-    .appName("Spark Pi")
+    .appName("Spark Pi OpenLineage Example")
+    // Specify local execution mode
     .master("local[*]")
+    // This line is EXTREMELY important
+    .config("spark.extraListeners", "io.openlineage.spark.agent.OpenLineageSparkListener")
+    // The transport type used for event emit, default type is console
+    .config("spark.openlineage.transport.type", "console")
+    // The default namespace to be applied for any jobs submitted
+    .config("spark.openlineage.namespace", "spark_namespace")
+    // The job namespace to be used for the parent job facet
+    .config("spark.openlineage.parentJobNamespace", "airflow_namespace")
+    // The job name to be used for the parent job facet
+    .config("spark.openlineage.parentJobName", "airflow_dag.airflow_task")
+    // The RunId of the parent job that initiated this Spark job
+    .config("spark.openlineage.parentRunId", "xxxx-xxxx-xxxx-xxxx")
     .getOrCreate()
+
   val slices = if (args.length > 0) args(0).toInt else 2
   val n = math.min(100000L * slices, Int.MaxValue).toInt // avoid overflow
   val count = spark.sparkContext.parallelize(1 until n, slices).map { i =>
@@ -37,6 +51,7 @@ object SparkPi extends App {
     if (x*x + y*y <= 1) 1 else 0
   }.reduce(_ + _)
   println(s"Pi is roughly ${4.0 * count / (n - 1)}")
+
   spark.stop()
 }
 // scalastyle:on println
