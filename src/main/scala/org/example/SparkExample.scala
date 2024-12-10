@@ -23,6 +23,7 @@ object SparkExample extends App {
     // This line is EXTREMELY important
     .config("spark.extraListeners", "io.openlineage.spark.agent.OpenLineageSparkListener")
     // The transport type used for event emit, default type is console
+    // The file transport type is pretty useless on Spark/Flink applications deployed to Yarn or Kubernetes cluster
     .config("spark.openlineage.transport.type", "file")
     // The path of the file to write the events to
     .config("spark.openlineage.transport.location", openLineageOutputEventsJsonFilePath)
