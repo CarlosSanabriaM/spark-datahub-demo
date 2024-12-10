@@ -20,10 +20,15 @@ package org.example
 
 import org.apache.spark.sql.SparkSession
 
+import java.io.File
 import scala.math.random
 
 /** Computes an approximation to pi */
 object SparkPi extends App {
+  private val outputJsonFilePath = "./open-lineage-output-events.jsonl"
+  // Delete file before running the job to avoid appending to the file
+  new File(outputJsonFilePath).delete()
+
   val spark = SparkSession
     .builder()
     .appName("Spark Pi OpenLineage Example")
@@ -32,7 +37,9 @@ object SparkPi extends App {
     // This line is EXTREMELY important
     .config("spark.extraListeners", "io.openlineage.spark.agent.OpenLineageSparkListener")
     // The transport type used for event emit, default type is console
-    .config("spark.openlineage.transport.type", "console")
+    .config("spark.openlineage.transport.type", "file")
+    // The path of the file to write the events to
+    .config("spark.openlineage.transport.location", outputJsonFilePath)
     // The default namespace to be applied for any jobs submitted
     .config("spark.openlineage.namespace", "spark_namespace")
     // The job namespace to be used for the parent job facet

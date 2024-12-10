@@ -36,3 +36,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Open Lineage output events Json Lines file ###
+open-lineage-output-events.jsonl
