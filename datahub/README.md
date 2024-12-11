@@ -13,8 +13,7 @@
 7. Create a new pipenv shell: `pipenv shell`
 8. Install DataHub CLI
    ```shell
-   pip install --upgrade pip wheel setuptools
-   pip install --upgrade acryl-datahub
+   pipenv install acryl-datahub
    datahub version
    ```
 9. Start DataHub
