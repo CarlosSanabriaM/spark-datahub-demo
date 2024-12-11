@@ -1,9 +1,6 @@
-# Spark DataHub integration
+# Spark DataHub demo
 
-Run the `SparkPi` example in IntelliJ. You should see the following messages in the logs:
+This project contains 2 maven submodules:
 
-```
-INFO org.apache.spark.SparkContext - Registered listener io.openlineage.spark.agent.OpenLineageSparkListener
-INFO io.openlineage.client.transports.ConsoleTransport - {"eventTime": ...
-INFO io.openlineage.spark.agent.EventEmitter - Emitting lineage completed successfully with run id: ...
-```
+* [datahub](datahub/README.md): Uses `DatahubSparkListener` to emit metadata in DataHub format
+* [openlineage](openlineage/README.md): Uses `OpenLineageSparkListener` to emit metadata in OpenLineage format
