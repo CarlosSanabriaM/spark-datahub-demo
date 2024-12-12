@@ -31,6 +31,10 @@
     username: datahub
     password: datahub
     ```
+11. (Optional) In a new browser tab, navigate to the [DataHub Swagger UI](http://localhost:8080/openapi/swagger-ui/index.html)
+    to inspect the DataHub REST API. To view the OpenLineage API definition, navigate to
+    [this page](http://localhost:8080/openapi/swagger-ui/index.html?urls.primaryName=OpenLineage) or select `OpenLineage`
+    in the upper right corner of the Swagger UI (in the dropdown next to the `Select a definition` message).
 
 🚀 That's it!
 
@@ -54,3 +58,9 @@ This project contains 2 maven submodules. Both execute a Spark job locally and e
 * [openlineage](openlineage/README.md): Uses `OpenLineageSparkListener` to emit metadata in OpenLineage format
 
 Execute one of them by following the instructions specified in the respective README.
+
+## 3. Verify metadata in DataHub
+
+In your browser, navigate to [this page](http://localhost:9002/tasks/urn:li:dataJob:%28urn:li:dataFlow:%28spark,spark_open_lineage_example,spark_namespace%29,spark_open_lineage_example.execute_insert_into_hadoop_fs_relation_command.target_developers-under-30%29/Lineage?end_time_millis&filter_degree___false___EQUAL___0=1&is_lineage_mode=true&page=1&separate_siblings=false&show_columns=true&start_time_millis&unionType=0)
+to visualize the lineage of the Spark task you executed in the previous step (the one that reads the input csv file,
+filters and transforms the data, and writes the output to a new csv file).

@@ -22,10 +22,20 @@ object SparkOpenLineageExample extends App {
     // This line is EXTREMELY important
     .config("spark.extraListeners", "io.openlineage.spark.agent.OpenLineageSparkListener")
     // The transport type used for event emit, default type is console
+    // The CompositeTransport is designed to combine multiple transports, allowing event emission to several destinations
+    .config("spark.openlineage.transport.type", "composite")
+    // Determines if the process should continue even when one of the transports fails. Default is true.
+    .config("spark.openlineage.transport.continueOnFailure", "false")
     // The file transport type is pretty useless on Spark/Flink applications deployed to Yarn or Kubernetes cluster
-    .config("spark.openlineage.transport.type", "file")
+    .config("spark.openlineage.transport.transports.file.type", "file")
     // The path of the file to write the events to
-    .config("spark.openlineage.transport.location", openLineageOutputEventsJsonFilePath)
+    .config("spark.openlineage.transport.transports.file.location", openLineageOutputEventsJsonFilePath)
+    // Allows sending events to HTTP endpoint
+    .config("spark.openlineage.transport.transports.http.type", "http")
+    // Base url for HTTP requests
+    .config("spark.openlineage.transport.transports.http.url", "http://localhost:8080")
+    // String specifying the endpoint to which events are sent, appended to url. Optional, default: /api/v1/lineage.
+    .config("spark.openlineage.transport.transports.http.endpoint", "/openapi/openlineage/api/v1/lineage")
     // The default namespace to be applied for any jobs submitted
     .config("spark.openlineage.namespace", "spark_namespace")
     // The job namespace to be used for the parent job facet
