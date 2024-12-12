@@ -12,7 +12,7 @@ object SparkDatahubExample extends App {
   // Change this value to modify where the events will be emitted:
   // * file: writes the events to a file
   // * rest: sends the events to DataHub using its REST API
-  private val emitterType = EmitterType.file
+  private val emitterType = EmitterType.rest
 
   // Delete file before running the job to avoid appending to the file
   new File(datahubOutputEventsJsonFilePath).delete()
