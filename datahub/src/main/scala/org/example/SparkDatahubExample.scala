@@ -9,35 +9,39 @@ object SparkDatahubExample extends App {
   private val peopleCsvFilePath = "people.csv"
   private val outputFolderPath = "datahub/target/developers-under-30"
   private val datahubOutputEventsJsonFilePath = "datahub/target/datahub-output-events.jsonl"
+  // Change this value to modify where the events will be emitted:
+  // * file: writes the events to a file
+  // * rest: sends the events to DataHub using its REST API
+  private val emitterType = EmitterType.file
 
   // Delete file before running the job to avoid appending to the file
   new File(datahubOutputEventsJsonFilePath).delete()
 
   // Create Spark session with OpenLineage configuration
-  private val spark = SparkSession
+  private val sparkSessionBuilder = SparkSession
     .builder()
     .appName("Spark DataHub example")
     // Specify local execution mode
     .master("local[*]")
     // This line is EXTREMELY important
     .config("spark.extraListeners", "datahub.spark.DatahubSparkListener")
-    // Specify the ways to emit metadata. By default, it sends to DataHub using REST emitter.
-    // Valid options are rest, kafka or file
-    .config("spark.datahub.emitter", "file")
-    // The file where metadata will be written if file emitter is set
-    .config("spark.datahub.file.filename", datahubOutputEventsJsonFilePath)
-    //.config("spark.datahub.emitter", "rest")
-    // The DataHub REST server URL
-    //.config("spark.datahub.rest.server", "http://localhost:8080")
     // Include scheme from the path URI (e.g. hdfs://, s3://) in the dataset URN.
     // We recommend setting this value to false. Default is true for backwards compatibility with previous versions.
     .config("spark.datahub.metadata.include_scheme", "false")
-    // config("spark.jars.packages","io.acryl:acryl-spark-lineage:0.2.16")
-    //
-    // By default, datahub assigns Hive-like tables to the Hive platform.
-    // If you are using Glue as your Hive metastore, set this config flag to glue
-    // config("spark.datahub.metadata.dataset.hivePlatformAlias", "glue")
-    .getOrCreate()
+    // Specify the ways to emit metadata. By default, it sends to DataHub using REST emitter.
+    // Valid options are rest, kafka or file
+    .config("spark.datahub.emitter", emitterType.toString)
+
+  private val spark = (emitterType match {
+    case EmitterType.file =>
+      sparkSessionBuilder
+        // The file where metadata will be written if file emitter is set
+        .config("spark.datahub.file.filename", datahubOutputEventsJsonFilePath)
+    case EmitterType.rest =>
+      sparkSessionBuilder
+        // The DataHub REST server URL
+        .config("spark.datahub.rest.server", "http://localhost:8080")
+  }).getOrCreate()
 
   // Create a DataFrame from the CSV file
   private val df = spark.read.option("header", "true").option("delimiter", ";").csv(peopleCsvFilePath)
@@ -58,4 +62,15 @@ object SparkDatahubExample extends App {
   dfDevelopersUnder30.write.mode("overwrite").option("header", "true").csv(outputFolderPath)
 
   spark.stop()
+}
+
+/**
+ * Define the emitter type to use (either file or rest).
+ *
+ * Unlike OpenLineage, DataHub Spark listener does not have a composite emitter
+ * that allows sending events to multiple destinations.
+ */
+object EmitterType extends Enumeration {
+  type EmitterType = Value
+  val file, rest = Value
 }
