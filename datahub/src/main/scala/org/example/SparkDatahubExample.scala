@@ -8,7 +8,7 @@ import java.io.File
 object SparkDatahubExample extends App {
   private val peopleCsvFilePath = "people.csv"
   private val outputFolderPath = "datahub/target/developers-under-30"
-  private val datahubOutputEventsJsonFilePath = "datahub/target/datahub-output-events.jsonl"
+  private val datahubOutputEventsJsonFilePath = "datahub/target/datahub-output-events.json"
   // Change this value to modify where the events will be emitted:
   // * file: writes the events to a file
   // * rest: sends the events to DataHub using its REST API
