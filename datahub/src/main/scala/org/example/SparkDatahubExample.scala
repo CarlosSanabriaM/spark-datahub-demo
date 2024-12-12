@@ -1,6 +1,5 @@
 package org.example
 
-import org.apache.commons.io.FileUtils
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{concat, lit}
 
@@ -55,10 +54,8 @@ object SparkDatahubExample extends App {
     .filter(dfWithFullName("job") === "Developer" && dfWithFullName("age") < 30)
   dfDevelopersUnder30.show()
 
-  // Delete the output folder if it exists
-  FileUtils.deleteDirectory(new File(outputFolderPath))
   // Save the DataFrame to a CSV file
-  dfDevelopersUnder30.write.option("header", "true").csv(outputFolderPath)
+  dfDevelopersUnder30.write.mode("overwrite").option("header", "true").csv(outputFolderPath)
 
   spark.stop()
 }
