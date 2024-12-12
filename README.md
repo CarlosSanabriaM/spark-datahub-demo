@@ -64,3 +64,30 @@ Execute one of them by following the instructions specified in the respective RE
 In your browser, navigate to [this page](http://localhost:9002/tasks/urn:li:dataJob:%28urn:li:dataFlow:%28spark,spark_open_lineage_example,spark_namespace%29,spark_open_lineage_example.execute_insert_into_hadoop_fs_relation_command.target_developers-under-30%29/Lineage?end_time_millis&filter_degree___false___EQUAL___0=1&is_lineage_mode=true&page=1&separate_siblings=false&show_columns=true&start_time_millis&unionType=0)
 to visualize the lineage of the Spark task you executed in the previous step (the one that reads the input csv file,
 filters and transforms the data, and writes the output to a new csv file).
+
+
+## 4. Stop / Reset DataHub
+
+When you're done, if you just want to __stop DataHub__, then run the following command:
+
+```shell
+datahub docker quickstart --stop
+```
+
+This will stop all the Docker containers.
+
+If you want to __clean up the environment and stop DataHub__ instead, then run the following command:
+
+```shell
+datahub docker nuke
+```
+
+This will remove all the containers and volumes associated with the DataHub services, thereby deleting all the metadata.
+As a result, DataHub will also be stopped.
+
+If you want to __start DataHub again__, follow the steps specified in the [Start DataHub section](#1-start-datahub),
+starting from the following command:
+
+```shell
+datahub docker quickstart
+```
