@@ -6,7 +6,7 @@
 
   <groupId>org.example</groupId>
   <artifactId>spark-datahub-demo</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>${revision}</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -19,6 +19,7 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <revision>1.0-SNAPSHOT</revision>
     <scala.binary.version>2.12</scala.binary.version>
     <scala.version>2.12.18</scala.version>
     <spark.version>3.5.3</spark.version>
