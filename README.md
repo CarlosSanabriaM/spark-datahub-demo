@@ -104,3 +104,9 @@ starting from the following command:
 ```shell
 datahub docker quickstart
 ```
+
+## (Optional) Spline
+
+This project also contains a submodule that demonstrates how to emit lineage to [Spline](https://absaoss.github.io/spline/).
+
+Check the [spline](spline/README.md) module for more information.

@@ -13,6 +13,7 @@
     <module>datahub</module>
     <module>openlineage</module>
     <module>commons</module>
+    <module>spline</module>
   </modules>
 
   <properties>
