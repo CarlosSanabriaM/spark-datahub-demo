@@ -1,13 +1,10 @@
 package org.example
 
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.{concat, lit}
 
 import java.io.File
 
-object SparkOpenLineageExample extends App {
-  private val peopleCsvFilePath = "people.csv"
-  private val outputFolderPath = "openlineage/target/developers-under-30"
+object SparkOpenLineageExample extends App with SparkExampleJob {
   private val openLineageOutputEventsJsonFilePath = "openlineage/target/open-lineage-output-events.jsonl"
 
   // Delete file before running the job to avoid appending to the file
@@ -46,23 +43,6 @@ object SparkOpenLineageExample extends App {
     .config("spark.openlineage.parentRunId", "xxxx-xxxx-xxxx-xxxx")
     .getOrCreate()
 
-  // Create a DataFrame from the CSV file
-  private val df = spark.read.option("header", "true").option("delimiter", ";").csv(peopleCsvFilePath)
-  df.printSchema()
-  df.show()
-
-  // Add a new column to the DataFrame with the full name
-  private val dfWithFullName = df.withColumn("full_name", concat(df("name"), lit(" "), df("surname")))
-  dfWithFullName.printSchema()
-  dfWithFullName.show()
-
-  // Filter the DataFrame to only include developers below the age of 30
-  private val dfDevelopersUnder30 = dfWithFullName
-    .filter(dfWithFullName("job") === "Developer" && dfWithFullName("age") < 30)
-  dfDevelopersUnder30.show()
-
-  // Save the DataFrame to a CSV file
-  dfDevelopersUnder30.write.mode("overwrite").option("header", "true").csv(outputFolderPath)
-
-  spark.stop()
+  // Run the Spark job
+  runSparkJob("openlineage")(spark)
 }

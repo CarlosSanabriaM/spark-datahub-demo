@@ -20,6 +20,13 @@
   </properties>
 
   <dependencies>
+    <!-- Commons module (contains the Spark job to execute) -->
+    <dependency>
+      <groupId>org.example</groupId>
+      <artifactId>commons</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <!-- DataHub Spark integration -->
     <dependency>
       <groupId>io.acryl</groupId>

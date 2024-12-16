@@ -12,6 +12,7 @@
   <modules>
     <module>datahub</module>
     <module>openlineage</module>
+    <module>commons</module>
   </modules>
 
   <properties>

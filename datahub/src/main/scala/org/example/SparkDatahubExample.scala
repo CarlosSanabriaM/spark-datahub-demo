@@ -1,15 +1,12 @@
 package org.example
 
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.{concat, lit}
 import org.example.EmitterType.EmitterType
 import org.rogach.scallop.{ScallopConf, ScallopOption}
 
 import java.io.File
 
-object SparkDatahubExample extends App {
-  private val peopleCsvFilePath = "people.csv"
-  private val outputFolderPath = "datahub/target/developers-under-30"
+object SparkDatahubExample extends App with SparkExampleJob {
   private val datahubOutputEventsJsonFilePath = "datahub/target/datahub-output-events.json"
 
   // Create a new instance of the AppConf class to parse the program arguments
@@ -44,25 +41,8 @@ object SparkDatahubExample extends App {
         .config("spark.datahub.rest.server", "http://localhost:8080")
   }).getOrCreate()
 
-  // Create a DataFrame from the CSV file
-  private val df = spark.read.option("header", "true").option("delimiter", ";").csv(peopleCsvFilePath)
-  df.printSchema()
-  df.show()
-
-  // Add a new column to the DataFrame with the full name
-  private val dfWithFullName = df.withColumn("full_name", concat(df("name"), lit(" "), df("surname")))
-  dfWithFullName.printSchema()
-  dfWithFullName.show()
-
-  // Filter the DataFrame to only include developers below the age of 30
-  private val dfDevelopersUnder30 = dfWithFullName
-    .filter(dfWithFullName("job") === "Developer" && dfWithFullName("age") < 30)
-  dfDevelopersUnder30.show()
-
-  // Save the DataFrame to a CSV file
-  dfDevelopersUnder30.write.mode("overwrite").option("header", "true").csv(outputFolderPath)
-
-  spark.stop()
+  // Run the Spark job
+  runSparkJob("datahub")(spark)
 }
 
 /**
