@@ -10,7 +10,7 @@ To __emit metadata__, it uses and __compares two different Spark event listeners
 * __[DataHub (acryl-spark-lineage)](https://datahubproject.io/docs/metadata-integration/java/acryl-spark-lineage)__
 
 <p align="center">
-   <img width="1500" src="docs/images/demo.png" alt="Demo">
+   <img width="1500" src="openlineage/docs/images/openlineage-lineage-in-datahub.png" alt="Demo">
 </p>
 
 ## 1. Start DataHub
