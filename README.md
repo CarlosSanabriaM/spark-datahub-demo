@@ -1,5 +1,18 @@
 # Spark DataHub demo
 
+> __⭐️ This project demonstrates how to emit metadata from a Spark job to DataHub.__
+
+For this purpose, this repository __executes a Spark job__ that reads a CSV file, filters and transforms the data,
+and writes the output to a new CSV file.
+
+To __emit metadata__, it uses and __compares two different Spark event listeners:__
+* __[OpenLineage (openlineage-spark)](https://openlineage.io/docs/integrations/spark/)__
+* __[DataHub (acryl-spark-lineage)](https://datahubproject.io/docs/metadata-integration/java/acryl-spark-lineage)__
+
+<p align="center">
+   <img width="1500" src="docs/images/demo.png" alt="Demo">
+</p>
+
 ## 1. Start DataHub
 
 1. [Install Docker Desktop](https://www.docker.com/products/docker-desktop/)
@@ -52,7 +65,7 @@
 
 ## 2. Execute one of the Spark examples
 
-This project contains 2 maven submodules. Both execute a Spark job locally and emit metadata to the respective metadata service.
+This project contains 2 maven submodules. Both execute a Spark job locally and emit metadata in the respective format:
 
 * [datahub](datahub/README.md): Uses `DatahubSparkListener` to emit metadata in DataHub format
 * [openlineage](openlineage/README.md): Uses `OpenLineageSparkListener` to emit metadata in OpenLineage format
