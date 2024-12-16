@@ -16,6 +16,7 @@
     <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <datahub.spark.version>0.2.16</datahub.spark.version>
+    <scallop.version>5.2.0</scallop.version>
   </properties>
 
   <dependencies>
@@ -24,6 +25,15 @@
       <groupId>io.acryl</groupId>
       <artifactId>acryl-spark-lineage</artifactId>
       <version>${datahub.spark.version}</version>
+    </dependency>
+
+    <!-- Scallop -->
+    <!-- A simple command-line arguments parsing library for Scala. -->
+    <!-- https://mvnrepository.com/artifact/org.rogach/scallop -->
+    <dependency>
+      <groupId>org.rogach</groupId>
+      <artifactId>scallop_${scala.binary.version}</artifactId>
+      <version>${scallop.version}</version>
     </dependency>
   </dependencies>
 

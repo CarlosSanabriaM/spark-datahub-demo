@@ -2,6 +2,8 @@ package org.example
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{concat, lit}
+import org.example.EmitterType.EmitterType
+import org.rogach.scallop.{ScallopConf, ScallopOption}
 
 import java.io.File
 
@@ -9,10 +11,9 @@ object SparkDatahubExample extends App {
   private val peopleCsvFilePath = "people.csv"
   private val outputFolderPath = "datahub/target/developers-under-30"
   private val datahubOutputEventsJsonFilePath = "datahub/target/datahub-output-events.json"
-  // Change this value to modify where the events will be emitted:
-  // * file: writes the events to a file
-  // * rest: sends the events to DataHub using its REST API
-  private val emitterType = EmitterType.rest
+
+  // Create a new instance of the AppConf class to parse the program arguments
+  private val conf = AppConf(args)
 
   // Delete file before running the job to avoid appending to the file
   new File(datahubOutputEventsJsonFilePath).delete()
@@ -30,9 +31,9 @@ object SparkDatahubExample extends App {
     .config("spark.datahub.metadata.include_scheme", "false")
     // Specify the ways to emit metadata. By default, it sends to DataHub using REST emitter.
     // Valid options are rest, kafka or file
-    .config("spark.datahub.emitter", emitterType.toString)
+    .config("spark.datahub.emitter", conf.emitterType().toString)
 
-  private val spark = (emitterType match {
+  private val spark = (conf.emitterType() match {
     case EmitterType.file =>
       sparkSessionBuilder
         // The file where metadata will be written if file emitter is set
@@ -73,4 +74,25 @@ object SparkDatahubExample extends App {
 object EmitterType extends Enumeration {
   type EmitterType = Value
   val file, rest = Value
+}
+
+case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
+  /**
+   * Emitter type.
+   *
+   * Possible values are specified in [[EmitterType]].
+   */
+  val emitterType: ScallopOption[EmitterType] =
+    choice(
+      choices = EmitterType.values.toSeq.map(_.toString),
+      required = true,
+      descr = "Emitter type to use: file (writes the events to a file) or " +
+        "rest (sends the events to DataHub using its REST API). " +
+        "Unlike OpenLineage, DataHub Spark listener does not have a composite emitter " +
+        "that allows sending events to multiple destinations.",
+      noshort = true)
+      // Transform the string to the enum value
+      .map(EmitterType.withName)
+
+  verify()
 }
